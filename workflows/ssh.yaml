@@ -1,0 +1,43 @@
+name: SSH-Deploy
+
+on:
+  workflow_dispatch:
+
+
+env:
+    REGISTRY: ghcr.io
+    IMAGE_NAME: ngmaibulat/ngmapi
+    IMAGE_TAG: 0.0.${{ github.run_number }}
+    TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+    TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+    HOST: ${{ secrets.HOST }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+    
+      - name: Set up SSH Keys
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan $HOST >> ~/.ssh/known_hosts
+
+      - name: Clone Repo via SSH
+        run: |
+          eval `ssh-agent -s`
+          ssh-add ~/.ssh/id_rsa
+          echo "SSH Keys added:"
+          echo "ssh-add -l" | ssh -A root@$HOST 'bash -s'
+          echo "rm -rf training-flask" | ssh -A root@$HOST 'bash -s'
+          export CMD="git clone git@github.com:ngmaibulat/training-flask.git"
+          echo $CMD | ssh -A root@$HOST 'bash -s'
+
+      - name: Check Results
+        run: |
+          eval `ssh-agent -s`
+          ssh-add ~/.ssh/id_rsa
+          echo 'ls -la' | ssh -A root@$HOST 'bash -s'

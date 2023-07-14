@@ -1,9 +1,6 @@
 venv
 *.env
-test.py
-.dockerignore
 push.sh
-workflows
 
 __pycache__/
 *.py[cod]

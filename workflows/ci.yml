@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+env:
+    REGISTRY: ghcr.io
+    IMAGE_NAME: ngmyulai/fastapi
+    IMAGE_TAG: 0.0.${{ github.run_number }}
+    TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+    TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+    HOST: ${{ secrets.HOST }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Update Metadata
+        run: |
+          sed -i "s/BUILD_VERSION/${{ github.run_number }}/g" pyproject.toml
+          python --version
+          pip install build
+          pip install twine
+
+      - name: Log in to registry
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | podman login ghcr.io -u $ --password-stdin
+
+      - name: Push image
+        run: |
+          IMG=${{ ENV.REGISTRY }}/${{ ENV.IMAGE_NAME }}
+          buildah bud -t $IMG:latest .
+          podman tag $IMG:latest $IMG:${{ ENV.IMAGE_TAG }}
+          podman push $IMG
+          podman push $IMG:${{ ENV.IMAGE_TAG }}
+
+      - name: PIP Package Build
+        run: |
+          python -m build --sdist .
+          python -m build --wheel .
+          ls -la dist
+          python -m twine upload dist/*
+    
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan $HOST >> ~/.ssh/known_hosts
+
+      - name: Deploy via SSH
+        run: |
+          eval `ssh-agent -s`
+          ssh-add ~/.ssh/id_rsa
+          echo "SSH Keys added:"
+          echo "ssh-add -l" | ssh -A root@$HOST 'bash -s'
+          cat scripts/deployment/deploy-ubuntu.sh | ssh -A root@$HOST 'bash -s'
