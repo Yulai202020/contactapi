@@ -1,0 +1,19 @@
+[project]
+name = "ContactApi"
+version = "0.0.1"
+description = "Just a demo project"
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["flask", "project"]
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "sqlalchemy"
+]
+
+[project.scripts]
+ngmapi = "src.__main__:main"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
