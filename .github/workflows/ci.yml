@@ -35,4 +35,4 @@ jobs:
           python -m build --sdist .
           python -m build --wheel .
           ls -la dist
-         python -m twine upload dist/*
+          python -m twine upload dist/*
