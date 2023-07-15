@@ -33,4 +33,3 @@ jobs:
           buildah bud -t $IMG:latest .
           podman tag $IMG:latest $IMG:${{ ENV.IMAGE_TAG }}
           podman push $IMG
-          podman push $IMG:${{ ENV.IMAGE_TAG }}
