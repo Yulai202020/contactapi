@@ -1,13 +1,15 @@
 # fastapi
 
-# Runing app
+# Runing app with docker
 
-export  DB_PASS="password"
+export DB_PASS="password"
+
 export DATABASE_URL="postgresql://postgres:$DB_PASS@localhost:5432"
 
 podman create network contactapi
 
 podman pull docker.io/library/postgres
+
 podman pull ghcr.io/yulai202020/contactapi
 
 podman images
