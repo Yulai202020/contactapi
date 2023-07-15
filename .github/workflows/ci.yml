@@ -11,17 +11,29 @@ on:
 
 env:
     REGISTRY: ghcr.io
-    IMAGE_NAME: yulai202020/contactapi
+    IMAGE_NAME: ngmaibulat/ngmapi
     IMAGE_TAG: 0.0.${{ github.run_number }}
+    TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+    TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+
       - uses: actions/checkout@v3
 
-      - name: Hello world
-        run: |
-          echo "hello world"
-          echo "bye"
+      - name: Update Metadata
+      run: |
+        sed -i "s/BUILD_VERSION/${{ github.run_number }}/g" pyproject.toml
+        python --version
+        pip install build
+        pip install twine
+
+      - name: PIP Package Build
+      run: |
+        python -m build --sdist .
+        python -m build --wheel .
+        ls -la dist
+        python -m twine upload dist/*
