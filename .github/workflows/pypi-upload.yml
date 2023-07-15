@@ -1,4 +1,4 @@
-name: CI
+name: Pypi upload
 
 on:
   push:
@@ -10,11 +10,8 @@ on:
   workflow_dispatch:
 
 env:
-    REGISTRY: ghcr.io
-    IMAGE_NAME: ngmaibulat/ngmapi
-    IMAGE_TAG: 0.0.${{ github.run_number }}
-    TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-    TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+  TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+  TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
 
 jobs:
   build:

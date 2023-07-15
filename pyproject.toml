@@ -1,6 +1,6 @@
 [project]
 name = "ContactApi"
-version = "0.0.1"
+version = "0.0.BUILD_VERSION"
 description = "Just a demo project"
 readme = "README.md"
 requires-python = ">=3.10"
