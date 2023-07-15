@@ -24,15 +24,15 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Update Metadata
-      run: |
-        sed -i "s/BUILD_VERSION/${{ github.run_number }}/g" pyproject.toml
-        python --version
-        pip install build
-        pip install twine
+        run: |
+          sed -i "s/BUILD_VERSION/${{ github.run_number }}/g" pyproject.toml
+          python --version
+          pip install build
+          pip install twine
 
       - name: PIP Package Build
-      run: |
-        python -m build --sdist .
-        python -m build --wheel .
-        ls -la dist
-        python -m twine upload dist/*
+        run: |
+          python -m build --sdist .
+          python -m build --wheel .
+          ls -la dist
+         python -m twine upload dist/*
