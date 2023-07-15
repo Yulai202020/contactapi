@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+env:
+    REGISTRY: ghcr.io
+    IMAGE_NAME: Yulai202020/contactapi
+    IMAGE_TAG: 0.0.${{ github.run_number }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Log in to registry
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | podman login ghcr.io -u $ --password-stdin
+
+      - name: Push image
+        run: |
+          IMG=${{ ENV.REGISTRY }}/${{ ENV.IMAGE_NAME }}
+          buildah bud -t $IMG:latest .
+          podman tag $IMG:latest $IMG:${{ ENV.IMAGE_TAG }}
+          podman push $IMG
+          podman push $IMG:${{ ENV.IMAGE_TAG }}
