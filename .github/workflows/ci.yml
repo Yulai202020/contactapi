@@ -21,14 +21,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Log in to registry
+      - name: Hello world
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | podman login ghcr.io -u $ --password-stdin
-
-      - name: Push image
-        run: |
-          IMG=${{ ENV.REGISTRY }}/${{ ENV.IMAGE_NAME }}
-          buildah bud -t $IMG:latest .
-          podman tag $IMG:latest $IMG:${{ ENV.IMAGE_TAG }}
-          podman push $IMG
-          podman push $IMG:${{ ENV.IMAGE_TAG }}
+        echo "hello world"
