@@ -1,0 +1,39 @@
+name: Create docker image
+
+on:
+  push:
+    branches: [ "main" ]
+
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+env:
+    REGISTRY: docker.io
+    IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/contactapi
+
+    IMAGE_TAG: 0.0.${{ github.run_number }}
+    
+    DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+    DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Log in to docker.io
+        run: |
+          podman login docker.io -u ${{ ENV.DOCKER_USERNAME }} -p ${{ ENV.DOCKER_PASSWORD }}
+
+      - name: Push image
+        run: |
+          IMG=${{ ENV.REGISTRY }}/${{ ENV.IMAGE_NAME }}
+          buildah bud -t $IMG:latest .
+          podman tag $IMG:latest $IMG:${{ ENV.IMAGE_TAG }}
+          podman push $IMG
