@@ -12,7 +12,6 @@ on:
 env:
     REGISTRY: docker.io
     IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/contactapi
-
     IMAGE_TAG: 0.0.${{ github.run_number }}
     
     DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
