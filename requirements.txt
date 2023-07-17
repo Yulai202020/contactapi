@@ -1,6 +1,4 @@
 fastapi
-python-dotenv 
-
 uvicorn
 
 sqlalchemy
