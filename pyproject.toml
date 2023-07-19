@@ -1,9 +1,10 @@
 [project]
-name = "ContactApi"
-version = "0.0.BUILD_VERSION"
+name = "contactapi"
+version = "0.0.1"
 description = "Just a demo project"
 readme = "README.md"
 requires-python = ">=3.10"
+
 keywords = ["flask", "project"]
 dependencies = [
     "fastapi",
@@ -12,7 +13,7 @@ dependencies = [
 ]
 
 [project.scripts]
-ngmapi = "src.__main__:main"
+ngmapi = "src.__main__:run"
 
 [build-system]
 requires = ["setuptools"]
