@@ -1,4 +1,4 @@
-import crud, os
+import crud
 from config import get_db
 from schemas import PersonSchema
 
@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from fastapi import APIRouter
 from fastapi import Depends, APIRouter
 
-table_name: str = os.environ.get("TABLE_NAME")
+table_name: str = "persons"
 
 # Create api router
 router = APIRouter()
