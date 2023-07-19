@@ -6,6 +6,8 @@
 
 ### create vars
 
+export PORT="8000"
+
 export DB_IMAGE="docker.io/library/postgres"
 export DB_CONTAINER="postgresdb"
 
@@ -27,7 +29,7 @@ podman images
 ### run containers
 
 podman run --network contactapi -e POSTGRES_PASSWORD=$DB_PASS -d --name $DB_CONTAINER $DB_IMAGE
-podman run --network contactapi -e DATABASE_URL=$DATABASE_URL -p 8000:8000 -d $APP_IMAGE
+podman run --network contactapi -e DATABASE_URL=$DATABASE_URL -e PORT=$PORT -p $PORT:$PORT -d $APP_IMAGE
 
 ### check
 

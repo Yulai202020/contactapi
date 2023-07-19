@@ -3,6 +3,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import MetaData, create_engine, Table, Column, Integer, String
 
+port = os.environ.get("PORT")
+
 database_url = os.environ.get("DATABASE_URL")
 
 base = declarative_base()

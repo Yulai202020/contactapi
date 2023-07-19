@@ -1,7 +1,7 @@
 from config import base
 from sqlalchemy import Column, Integer, String
 
-
+# Create model
 class Person(base):
     __tablename__ = "persons"
 

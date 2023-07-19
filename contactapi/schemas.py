@@ -3,6 +3,7 @@ from typing import Optional, TypeVar
 
 T = TypeVar("T")
 
+# Create schemas
 class PersonSchema(BaseModel):
     name: Optional[str] = None
     surname: Optional[str] = None
