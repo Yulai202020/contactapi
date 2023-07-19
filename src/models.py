@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, String
 
 
 class Person(base):
-    __tablename__ = "person"
+    __tablename__ = "persons"
 
     id = Column(Integer, primary_key = True)
     name = Column(String)
