@@ -13,7 +13,7 @@ dependencies = [
 ]
 
 [project.scripts]
-ngmapi = "src.__main__:run"
+contactapi = "src.__main__:run"
 
 [build-system]
 requires = ["setuptools"]

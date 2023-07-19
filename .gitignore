@@ -2,6 +2,7 @@ venv
 *.env
 push.sh
 push.md
+test.py
 
 __pycache__/
 *.py[cod]
