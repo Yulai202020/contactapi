@@ -1,8 +1,6 @@
 venv
 *.env
-push.sh
-push.md
-test.py
+tmp/
 
 __pycache__/
 *.py[cod]
