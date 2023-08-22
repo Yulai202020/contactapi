@@ -22,7 +22,7 @@ jobs:
 
       - name: Update Metadata
         run: |
-          echo env.PYPI_USERNAME
+          echo ${{ env.TWINE_USERNAME }}
           sed -i "s/BUILD_VERSION/${{ github.run_number }}/g" pyproject.toml
           python --version
           pip install build
